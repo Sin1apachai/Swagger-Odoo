@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="api_documents.swagger_ui_template" name="Swagger UI">
+            <link href="/api_documents/static/lib/swagger-ui/dist/swagger-ui.css" rel="stylesheet" type="text/css"/>
+            <div id="swagger-ui-container" key="swagger-ui-container"></div>
+            <script src="/api_documents/static/lib/swagger-ui/dist/swagger-ui-bundle.js"></script>
+            <script src="/api_documents/static/lib/swagger-ui/dist/swagger-ui-standalone-preset.js"></script>
+            <script type="text/javascript">
+              document.addEventListener('DOMContentLoaded', function() {
+                    var ui = SwaggerUIBundle({
+                        url: '/api_documents/static/swagger.yaml',
+                        dom_id: '#swagger-ui-container',
+                        deepLinking: false,
+                        presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+                        plugins: [SwaggerUIBundle.plugins.DownloadUrl],
+                        layout: "StandaloneLayout"
+                    })
+                    ui.swaggerUi.load()
+                    ui.swaggerUi.preauthorizeApiKey = function(name, value) {
+                        var auth = {}
+                        auth[name] = value
+                        swaggerUi.api.clientAuthorizations.add('api_key', new SwaggerClient.ApiKeyAuthorization(auth))
+                    }
+              })
+            </script>
+        </template>
+    </data>
+</odoo>
